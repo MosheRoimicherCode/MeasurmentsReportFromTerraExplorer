@@ -70,6 +70,24 @@ namespace GeneratePdf.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Area.
+        /// </summary>
+        internal static string Area {
+            get {
+                return ResourceManager.GetString("Area", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created At.
+        /// </summary>
+        internal static string Created_At {
+            get {
+                return ResourceManager.GetString("Created At", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elevation Diference.
         /// </summary>
         internal static string Elevation_Difference {
@@ -84,6 +102,24 @@ namespace GeneratePdf.Languages {
         internal static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HorizontalDistance.
+        /// </summary>
+        internal static string HorizontalDistance {
+            get {
+                return ResourceManager.GetString("HorizontalDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        internal static string Length {
+            get {
+                return ResourceManager.GetString("Length", resourceCulture);
             }
         }
         
@@ -138,6 +174,15 @@ namespace GeneratePdf.Languages {
         internal static string Slope_Percentage {
             get {
                 return ResourceManager.GetString("Slope Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SlopeDegrees.
+        /// </summary>
+        internal static string SlopeDegrees {
+            get {
+                return ResourceManager.GetString("SlopeDegrees", resourceCulture);
             }
         }
     }

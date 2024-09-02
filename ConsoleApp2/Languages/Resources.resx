@@ -144,4 +144,19 @@
   <data name="Slope Percentage" xml:space="preserve">
     <value>Slope Percentage</value>
   </data>
+  <data name="HorizontalDistance" xml:space="preserve">
+    <value>HorizontalDistance</value>
+  </data>
+  <data name="SlopeDegrees" xml:space="preserve">
+    <value>SlopeDegrees</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="Created At" xml:space="preserve">
+    <value>Created At</value>
+  </data>
 </root>

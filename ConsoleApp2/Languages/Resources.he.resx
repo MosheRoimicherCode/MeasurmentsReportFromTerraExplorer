@@ -142,6 +142,21 @@
     <value>עמוד</value>
   </data>
   <data name="Slope Percentage" xml:space="preserve">
-    <value>אחוז שיפוע</value>
+    <value>שיפוע באחוזים</value>
+  </data>
+  <data name="HorizontalDistance" xml:space="preserve">
+    <value>מרחק אופקי</value>
+  </data>
+  <data name="SlopeDegrees" xml:space="preserve">
+    <value>שיפוע במעלות</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>שטח</value>
+  </data>
+  <data name="Length" xml:space="preserve">
+    <value>אורך</value>
+  </data>
+  <data name="Created At" xml:space="preserve">
+    <value>הופק ב:</value>
   </data>
 </root>
