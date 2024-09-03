@@ -2,12 +2,17 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
+using System.Data.Common;
+using System.Globalization;
+using System.Resources;
 using Color = QuestPDF.Infrastructure.Color; // For File handling
 
 namespace GeneratePdf
 {
     public class GenerateReport
     {
+        ResourceManager _rm = new ResourceManager("GeneratePdf.Languages.Resources", typeof(Program).Assembly);
+
         public void GenerateFakeDataReport()
         {
             // Create lists to simulate your data categories
@@ -25,15 +30,17 @@ namespace GeneratePdf
             lines.Add(new List<string>() { "moshe", "200.06m", "150.28m", "45°", "50%", "15.25m", "C:\\Users\\User\\AppData\\Local\\Temp\\TESS_1153621_132.jpg" });
 
             // Adding fake data for polygons
-            polys.Add(new List<string>() { "300m²", "80m", "C:\\Users\\User\\AppData\\Local\\Temp\\TESS_1154537_155.jpg" });
+            polys.Add(new List<string>() { "moshe","300m²", "80m", "C:\\Users\\User\\AppData\\Local\\Temp\\TESS_1154537_155.jpg" });
+            polys.Add(new List<string>() { "moshe", "300m²", "80m", "C:\\Users\\User\\AppData\\Local\\Temp\\TESS_1154537_155.jpg" });
 
 
             // Generate the report PDF
-            ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "en");
+            ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "he");
         }
 
         public void ReportToPdf(List<List<string>> points, List<List<string>> lines, List<List<string>> polys, string siteName, string language)
         {
+            DefineCulture(language);
             QuestPDF.Settings.License = LicenseType.Community;
 
             Document.Create(container =>
@@ -48,8 +55,8 @@ namespace GeneratePdf
                     page.Header()
                         .Column(column =>
                         {
-                            
-                            string logoPath = Path.Combine("C:\\Users\\User\\source\\repos\\ConsoleApp2\\NewFolder", "logoKav.png");
+
+                            string logoPath = Path.Combine("C:\\Users\\User\\source\\repos\\MeasurmentsReportFromTerraExplorer\\ConsoleApp2\\NewFolder", "logoKav.png");
                             if (File.Exists(logoPath))
                             {
                                 column.Item().Height(5).Background("4083c4");
@@ -59,7 +66,7 @@ namespace GeneratePdf
                             column.Spacing(10);
                             column.Item().Background("#00FF00");
 
-                            column.Item().Text("Report Generated at: " + DateTime.Now.ToShortDateString() + "    " + siteName).AlignCenter().FontSize(10);
+                            column.Item().Text(_rm.GetString("dateGenerated") + DateTime.Now.ToShortDateString() + "    " + siteName).AlignCenter().FontSize(8);
                             column.Item().Height(1).Background(Colors.Black);
 
                         });
@@ -68,9 +75,10 @@ namespace GeneratePdf
                          .PaddingVertical(1, Unit.Centimetre)
                          .Column(col =>
                          {
+                             var numberOfElements = 0;
                              foreach (var list in points)
                              {
-                                 
+
                                  col.Item().Border(1).Table(table =>
                                  {
                                      table.ColumnsDefinition(columns =>
@@ -82,10 +90,70 @@ namespace GeneratePdf
 
                                      });
 
-                                     table.Cell().Element(TableHeader).Text("Name");
-                                     table.Cell().Element(TableHeader).Text("X");
-                                     table.Cell().Element(TableHeader).Text("Y");
-                                     table.Cell().Element(TableHeader).Text("Z");
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("Name")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text("X").FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text("Y").FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text("Z").FontFamily(Fonts.Trebuchet);
+
+                                     foreach (var item in list)
+                                     {
+                                         if (File.Exists(item))
+                                         {
+
+                                             col.Item().Table(t =>
+                                             {
+
+                                                 t.ColumnsDefinition(c =>
+                                                 {
+                                                     c.RelativeColumn();
+                                                     c.ConstantColumn(10);
+                                                     c.RelativeColumn();
+                                                 });
+
+                                                 t.Cell().Border(1).Image(item);
+                                                 t.Cell().Width(10);
+                                                 t.Cell().Border(1).Image(item);
+                                             });
+                                             
+                                             col.Item().AlignCenter().Height(1).Width(150).Background(Colors.Black);  
+                                         }
+                                         else
+                                         {
+                                             table.Cell().Element(Block).Text(item);
+                                         }
+                                     }
+
+                                 });
+
+                                 numberOfElements++;
+                                 if (numberOfElements != 0 && numberOfElements % 2 == 0)
+                                     col.Item().PageBreak();
+                             }
+
+
+                             //Polyline
+                             foreach (var list in lines)
+                             {
+
+                                 col.Item().Border(1).Table(table =>
+                                 {
+                                     table.ColumnsDefinition(columns =>
+                                     {
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                     });
+
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("Name")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("AerialDistance")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("HorizontalDistance")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("SlopeDegrees")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("SlopePercentage")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("ElevationDifference")).FontFamily(Fonts.Trebuchet);
+
 
                                      foreach (var item in list)
                                      {
@@ -95,88 +163,136 @@ namespace GeneratePdf
                                              col.Item().AlignCenter().Border(1).Height(200).Image(item);
                                              col.Item().AlignCenter().Height(1).Width(150).Background(Colors.Black);
 
-                                             col.Spacing(20);
+                                             col.Spacing(15);
                                          }
                                          else
                                          {
                                              table.Cell().Element(Block).Text(item);
                                          }
 
-                                         
+
                                      }
 
                                  });
                              }
+
+
+
+
+
+                             //Polygon
+                             foreach (var list in polys)
+                             {
+
+                                 col.Item().Border(1).Table(table =>
+                                 {
+                                     table.ColumnsDefinition(columns =>
+                                     {
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+                                         columns.RelativeColumn();
+
+                                     });
+
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("Name")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("Area")).FontFamily(Fonts.Trebuchet);
+                                     table.Cell().Element(TableHeader).Text(_rm.GetString("Length")).FontFamily(Fonts.Trebuchet);
+
+                                     foreach (var item in list)
+                                     {
+                                         if (File.Exists(item))
+                                         {
+
+                                             col.Item().AlignCenter().Border(1).Height(200).Image(item);
+                                             col.Item().AlignCenter().Height(1).Width(150).Background(Colors.Black);
+
+                                             col.Spacing(15);
+                                         }
+                                         else
+                                         {
+                                             table.Cell().Element(Block).Text(item);
+                                         }
+
+
+                                     }
+
+                                 });
+                             }
+
+
+
+
+
                          });
 
 
 
 
 
-                        //.Column(column =>
-                        //{
-                        //    column.Spacing(20);
-                            
-                        //    // Group data by type
-                        //    var groupedData = GroupDataByType(values);
+                    //.Column(column =>
+                    //{
+                    //    column.Spacing(20);
 
-                        //    column.Item().Table(table =>
-                        //    {
-                        //        table.ColumnsDefinition(columns =>
-                        //        {
-                        //            columns.RelativeColumn();
-                        //            columns.RelativeColumn();
-                        //            columns.RelativeColumn();
-                        //            columns.RelativeColumn();
-                        //        });
+                    //    // Group data by type
+                    //    var groupedData = GroupDataByType(values);
 
-                        //        foreach (var group in groupedData)
-                        //        {
-                        //            column.Item().Text(group.Key).Bold().FontSize(16);
+                    //    column.Item().Table(table =>
+                    //    {
+                    //        table.ColumnsDefinition(columns =>
+                    //        {
+                    //            columns.RelativeColumn();
+                    //            columns.RelativeColumn();
+                    //            columns.RelativeColumn();
+                    //            columns.RelativeColumn();
+                    //        });
 
-                                    
-                        //                table.Cell().Row(1).Column(1).Element(TableHeader).Text(group.Key);
-                        //                table.Cell().Row(1).Column(2).Element(TableHeader).Text("B");
-                        //                table.Cell().Row(1).Column(3).Element(TableHeader).Text("C");
-                        //                table.Cell().Row(1).Column(4).Element(TableHeader).Text("D");
+                    //        foreach (var group in groupedData)
+                    //        {
+                    //            column.Item().Text(group.Key).Bold().FontSize(16);
 
-                                    
-                                
+
+                    //                table.Cell().Row(1).Column(1).Element(TableHeader).Text(group.Key);
+                    //                table.Cell().Row(1).Column(2).Element(TableHeader).Text("B");
+                    //                table.Cell().Row(1).Column(3).Element(TableHeader).Text("C");
+                    //                table.Cell().Row(1).Column(4).Element(TableHeader).Text("D");
 
 
 
 
-                        //            foreach (var (name, data) in group.Value)
-                        //            {
-                        //                column.Item().Column(innerColumn =>
-                        //                {
-                        //                    innerColumn.Spacing(10);
-                        //                    innerColumn.Item().Text($"Name: {name}").Bold();
-                        //                    innerColumn.Item().Text($"Details:");
-                        //                    foreach (var item in data.Take(data.Count - 1))
-                        //                    {
-                        //                        innerColumn.Item().Text(item);
-                        //                    }
 
-                        //                    // Display image
-                        //                    var imagePath = data.Last();
-                        //                    if (File.Exists(imagePath))
-                        //                    {
-                        //                        innerColumn.Item().Image(imagePath);
-                        //                    }
-                        //                });
-                        //            }
-                        //        }
-                        //    });
 
-                            
-                        //});
+
+                    //            foreach (var (name, data) in group.Value)
+                    //            {
+                    //                column.Item().Column(innerColumn =>
+                    //                {
+                    //                    innerColumn.Spacing(10);
+                    //                    innerColumn.Item().Text($"Name: {name}").Bold();
+                    //                    innerColumn.Item().Text($"Details:");
+                    //                    foreach (var item in data.Take(data.Count - 1))
+                    //                    {
+                    //                        innerColumn.Item().Text(item);
+                    //                    }
+
+                    //                    // Display image
+                    //                    var imagePath = data.Last();
+                    //                    if (File.Exists(imagePath))
+                    //                    {
+                    //                        innerColumn.Item().Image(imagePath);
+                    //                    }
+                    //                });
+                    //            }
+                    //        }
+                    //    });
+
+
+                    //});
 
                     page.Footer()
                         .AlignCenter()
                         .Text(x =>
                         {
-                            x.Span("Page ");
+                            x.Span(_rm.GetString("Page"));
                             x.CurrentPageNumber();
                         });
                 });
@@ -200,13 +316,28 @@ namespace GeneratePdf
         {
             return container
                 .Border(1)
-                .Background(Colors.Blue.Accent1)
+                .Background("659ed2")
                 .ShowOnce()
                 .MinWidth(50)
                 .MinHeight(15)
                 .AlignCenter()
                 .AlignMiddle()
                 ;
+        }
+
+
+        private void DefineCulture(string lng = "he-HE")
+        {
+            string cultureName = lng.Length > 0 ? lng : "en-US"; // Default to English if no argument
+            CultureInfo culture = new CultureInfo(cultureName);
+            // Set current UI culture
+            CultureInfo.CurrentUICulture = culture;
+
+            // Access resource string
+            string greeting = _rm.GetString("Area");
+
+            // Display greeting
+            Console.WriteLine(greeting);
         }
     }
 }

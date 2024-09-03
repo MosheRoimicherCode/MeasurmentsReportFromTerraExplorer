@@ -117,38 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Hello" xml:space="preserve">
-    <value>שלום</value>
+  <data name="Name" xml:space="preserve">
+    <value>שם</value>
   </data>
-  <data name="Report" xml:space="preserve">
-    <value> דו"ח</value>
-  </data>
-  <data name="Elevation Difference" xml:space="preserve">
-    <value>מרחק אנכי</value>
-  </data>
-  <data name="Aerial Difference" xml:space="preserve">
+  <data name="AerialDistance" xml:space="preserve">
     <value>מרחק אווירי</value>
   </data>
-  <data name="Points" xml:space="preserve">
-    <value>נקודות</value>
-  </data>
-  <data name="Polygon" xml:space="preserve">
-    <value>שטחים</value>
-  </data>
-  <data name="Lines" xml:space="preserve">
-    <value>קווים</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>עמוד</value>
-  </data>
-  <data name="Slope Percentage" xml:space="preserve">
-    <value>שיפוע באחוזים</value>
-  </data>
   <data name="HorizontalDistance" xml:space="preserve">
-    <value>מרחק אופקי</value>
+    <value>מרחק אנכי</value>
   </data>
   <data name="SlopeDegrees" xml:space="preserve">
     <value>שיפוע במעלות</value>
+  </data>
+  <data name="SlopePercentage" xml:space="preserve">
+    <value>שיפוע באחוזים</value>
+  </data>
+  <data name="ElevationDifference" xml:space="preserve">
+    <value>הפרש גבהים</value>
   </data>
   <data name="Area" xml:space="preserve">
     <value>שטח</value>
@@ -156,7 +141,10 @@
   <data name="Length" xml:space="preserve">
     <value>אורך</value>
   </data>
-  <data name="Created At" xml:space="preserve">
+  <data name="dateGenerated" xml:space="preserve">
     <value>הופק ב:</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>עמוד </value>
   </data>
 </root>

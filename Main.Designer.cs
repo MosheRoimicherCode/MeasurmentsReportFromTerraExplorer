@@ -39,6 +39,7 @@
             point_btn = new Button();
             group_ComboBox = new ComboBox();
             label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // Line_btn
@@ -65,7 +66,7 @@
             // 
             report_btn.Location = new Point(12, 264);
             report_btn.Name = "report_btn";
-            report_btn.Size = new Size(265, 42);
+            report_btn.Size = new Size(264, 42);
             report_btn.TabIndex = 3;
             report_btn.Text = "Generate Report";
             report_btn.UseVisualStyleBackColor = true;
@@ -128,7 +129,7 @@
             group_ComboBox.FormattingEnabled = true;
             group_ComboBox.Location = new Point(12, 235);
             group_ComboBox.Name = "group_ComboBox";
-            group_ComboBox.Size = new Size(264, 23);
+            group_ComboBox.Size = new Size(135, 23);
             group_ComboBox.TabIndex = 10;
             // 
             // label1
@@ -140,11 +141,21 @@
             label1.TabIndex = 11;
             label1.Text = "Select a Group To Export";
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(153, 217);
+            label2.Name = "label2";
+            label2.Size = new Size(59, 15);
+            label2.TabIndex = 12;
+            label2.Text = "Language";
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(288, 318);
+            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(group_ComboBox);
             Controls.Add(createGroup_btn);
@@ -175,5 +186,6 @@
         private Button point_btn;
         private ComboBox group_ComboBox;
         private Label label1;
+        private Label label2;
     }
 }
