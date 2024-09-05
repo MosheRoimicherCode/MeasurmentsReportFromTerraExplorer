@@ -31,12 +31,28 @@ namespace MeasurmentsReportFromTerraExplorer
         }
         private void Line_btn_Click(object sender, EventArgs e)
         {
-            measurments.CreateLineMeasurment(Measurment_tbox.Text);
+            try
+            {
+                resetMeasurmentName();
+                measurments.CreateLineMeasurment(Measurment_tbox.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Area_btn_Click(object sender, EventArgs e)
         {
-            measurments.CreateAreaMeasurment(Measurment_tbox.Text);
+            try
+            {
+                resetMeasurmentName();
+                measurments.CreateAreaMeasurment(Measurment_tbox.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void point_btn_Click(object sender, EventArgs e)
@@ -60,8 +76,7 @@ namespace MeasurmentsReportFromTerraExplorer
             }
             catch (Exception ex)
             {
-                // Handle any potential errors that occur during the operation
-                MessageBox.Show($"An error occurred while creating the point: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void createGroup_btn_Click(object sender, EventArgs e)
@@ -92,35 +107,54 @@ namespace MeasurmentsReportFromTerraExplorer
         }
         private void report_btn_Click(object sender, EventArgs e)
         {
-            if (group_ComboBox.SelectedItem != null)
+            try
             {
-                // Cast SelectedItem to KeyValuePair<string, string>
-                var selectedItem = (KeyValuePair<string, string>)group_ComboBox.SelectedItem;
+                if (group_ComboBox.SelectedItem != null)
+                {
+                    // Cast SelectedItem to KeyValuePair<string, string>
+                    var selectedItem = (KeyValuePair<string, string>)group_ComboBox.SelectedItem;
 
-                // Get the selected text and value
-                string selectedText = selectedItem.Value; // The visible text in the ComboBox
-                string selectedValue = selectedItem.Key;  // The hidden value (ID)
+                    // Get the selected text and value
+                    string selectedText = selectedItem.Value; // The visible text in the ComboBox
+                    string selectedValue = selectedItem.Key;  // The hidden value (ID)
 
-                reportByGroup.GetGroupChieldsAsync(selectedText);
+                    reportByGroup.GetGroupChieldsAsync(selectedText);
 
-                //measurments.GenerateReportfUNC(selectedText, (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE");
+                    reportByGroup.GenerateReportfUNC(selectedText, (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void populateListBox(System.Windows.Forms.ComboBox listBox)
-        {  
-            // Clear the current items in the select box (ComboBox or another ListBox)
-            listBox.Items.Clear();  // Assuming `selectBox` is the name of your select box control
-
-            // Set the display and value members
-            listBox.DisplayMember = "Value"; // Display the name
-            listBox.ValueMember = "Key";     // Store the ID
-
-            // Add the new items to the select box
-            foreach (var child in measurments.getGroupChields())
+        {
+            try
             {
-                listBox.Items.Add(new KeyValuePair<string, string>(child.Id, child.Name));
+                // Clear the current items in the select box (ComboBox or another ListBox)
+                listBox.Items.Clear();
+
+                // Set the display and value members
+                listBox.DisplayMember = "Value"; // Display the name
+                listBox.ValueMember = "Key";     // Store the ID
+
+                // Add the new items to the select box
+                foreach (var child in measurments.getGroupChields())
+                {
+                    listBox.Items.Add(new KeyValuePair<string, string>(child.Id, child.Name));
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void refreshGroups_Click(object sender, EventArgs e)
+        {
+            populateListBox(group_ComboBox);
         }
     }
 }

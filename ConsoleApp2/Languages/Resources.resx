@@ -147,4 +147,7 @@
   <data name="Page" xml:space="preserve">
     <value>Page </value>
   </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Group Name:</value>
+  </data>
 </root>

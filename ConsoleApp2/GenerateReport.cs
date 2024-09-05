@@ -38,10 +38,10 @@ public class GenerateReport
 
 
         // Generate the report PDF
-        ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "he");
+        ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "he", "projectName");
     }
 
-    public void ReportToPdf(List<List<string>> points, List<List<string>> lines, List<List<string>> polys, string siteName, string language)
+    public void ReportToPdf(List<List<string>> points, List<List<string>> lines, List<List<string>> polys, string siteName, string language, string projectName)
     {
         DefineCulture(language);
         QuestPDF.Settings.License = LicenseType.Community;
@@ -68,7 +68,9 @@ public class GenerateReport
                         column.Spacing(10);
                         column.Item().Background("#00FF00");
 
-                        column.Item().Text(_rm.GetString("dateGenerated") + DateTime.Now.ToShortDateString() + "    " + siteName).AlignCenter().FontSize(8);
+                        column.Item().Text(projectName + "          " + _rm.GetString("GroupName") + " " + siteName).AlignCenter().FontSize(8);
+                        column.Item().Text(_rm.GetString("dateGenerated") + " " + DateTime.Now.ToShortDateString()).AlignCenter().FontSize(8);
+
                         column.Item().Height(1).Background(Colors.Black);
 
                     });

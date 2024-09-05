@@ -42,6 +42,7 @@
             label1 = new Label();
             label2 = new Label();
             lang_comBom = new ComboBox();
+            refreshGroups = new Button();
             SuspendLayout();
             // 
             // Line_btn
@@ -146,7 +147,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(153, 217);
+            label2.Location = new Point(215, 217);
             label2.Name = "label2";
             label2.Size = new Size(59, 15);
             label2.TabIndex = 12;
@@ -156,16 +157,28 @@
             // 
             lang_comBom.FormattingEnabled = true;
             lang_comBom.Items.AddRange(new object[] { "HE", "EN" });
-            lang_comBom.Location = new Point(156, 235);
+            lang_comBom.Location = new Point(218, 235);
             lang_comBom.Name = "lang_comBom";
             lang_comBom.Size = new Size(56, 23);
             lang_comBom.TabIndex = 13;
+            // 
+            // refreshGroups
+            // 
+            refreshGroups.BackgroundImage = (Image)resources.GetObject("refreshGroups.BackgroundImage");
+            refreshGroups.BackgroundImageLayout = ImageLayout.Zoom;
+            refreshGroups.Location = new Point(153, 226);
+            refreshGroups.Name = "refreshGroups";
+            refreshGroups.Size = new Size(36, 32);
+            refreshGroups.TabIndex = 14;
+            refreshGroups.UseVisualStyleBackColor = true;
+            refreshGroups.Click += refreshGroups_Click;
             // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(288, 318);
+            Controls.Add(refreshGroups);
             Controls.Add(lang_comBom);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -202,5 +215,6 @@
         private Label label1;
         private Label label2;
         private ComboBox lang_comBom;
+        private Button refreshGroups;
     }
 }
