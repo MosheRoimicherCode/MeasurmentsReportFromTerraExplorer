@@ -6,8 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeasurmentsReportFromTerraExplorer", "MeasurmentsReportFromTerraExplorer.csproj", "{2979C323-2B61-4539-8FC1-2D0854E99FB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeManagement", "..\TeManagement\TeManagement.csproj", "{02656AFE-0651-4951-B943-7E0A7B4B316C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1E6E7A9C-123C-41D3-AD35-609D81581E57} = {1E6E7A9C-123C-41D3-AD35-609D81581E57}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratePdf", "ConsoleApp2\GeneratePdf.csproj", "{378B7A7F-6196-4168-85BC-D4FF1DB5C52D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratePdf", "ConsoleApp2\GeneratePdf.csproj", "{1E6E7A9C-123C-41D3-AD35-609D81581E57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +26,10 @@ Global
 		{02656AFE-0651-4951-B943-7E0A7B4B316C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02656AFE-0651-4951-B943-7E0A7B4B316C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02656AFE-0651-4951-B943-7E0A7B4B316C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{378B7A7F-6196-4168-85BC-D4FF1DB5C52D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{378B7A7F-6196-4168-85BC-D4FF1DB5C52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{378B7A7F-6196-4168-85BC-D4FF1DB5C52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{378B7A7F-6196-4168-85BC-D4FF1DB5C52D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E6E7A9C-123C-41D3-AD35-609D81581E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E6E7A9C-123C-41D3-AD35-609D81581E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E6E7A9C-123C-41D3-AD35-609D81581E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E6E7A9C-123C-41D3-AD35-609D81581E57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

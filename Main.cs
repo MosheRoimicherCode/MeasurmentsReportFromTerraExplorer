@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TeManagement;
-using TerraExplorerX;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -18,11 +17,12 @@ namespace MeasurmentsReportFromTerraExplorer
     public partial class Main : Form
     {
         Measurments measurments = new Measurments();
+        ReportByGroup reportByGroup = new();
         public Main()
         {
             InitializeComponent();
             resetMeasurmentName();
-            measurments.atachStartEvents();
+            //measurments.atachStartEvents();
             populateListBox(group_ComboBox);
         }
         private void resetMeasurmentName()
@@ -101,7 +101,9 @@ namespace MeasurmentsReportFromTerraExplorer
                 string selectedText = selectedItem.Value; // The visible text in the ComboBox
                 string selectedValue = selectedItem.Key;  // The hidden value (ID)
 
-                measurments.GenerateReport(selectedText);
+                reportByGroup.GetGroupChieldsAsync(selectedText);
+
+                //measurments.GenerateReportfUNC(selectedText, (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE");
             }
         }
 

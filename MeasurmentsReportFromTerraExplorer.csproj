@@ -9,24 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <COMReference Include="TerraExplorer">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>dd08ebea-a8d1-470f-b8d3-c856e0efb0f8</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="TerraExplorerX">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>b87695b0-65ad-11d5-85c1-0001023952c1</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
+    <Compile Remove="ConsoleApp2\**" />
+    <EmbeddedResource Remove="ConsoleApp2\**" />
+    <None Remove="ConsoleApp2\**" />
   </ItemGroup>
 
   <ItemGroup>

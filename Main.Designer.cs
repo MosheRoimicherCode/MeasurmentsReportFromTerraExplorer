@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Line_btn = new Button();
             Area_btn = new Button();
             report_btn = new Button();
@@ -40,6 +41,7 @@
             group_ComboBox = new ComboBox();
             label1 = new Label();
             label2 = new Label();
+            lang_comBom = new ComboBox();
             SuspendLayout();
             // 
             // Line_btn
@@ -150,11 +152,21 @@
             label2.TabIndex = 12;
             label2.Text = "Language";
             // 
+            // lang_comBom
+            // 
+            lang_comBom.FormattingEnabled = true;
+            lang_comBom.Items.AddRange(new object[] { "HE", "EN" });
+            lang_comBom.Location = new Point(156, 235);
+            lang_comBom.Name = "lang_comBom";
+            lang_comBom.Size = new Size(56, 23);
+            lang_comBom.TabIndex = 13;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(288, 318);
+            Controls.Add(lang_comBom);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(group_ComboBox);
@@ -167,8 +179,10 @@
             Controls.Add(point_btn);
             Controls.Add(Area_btn);
             Controls.Add(Line_btn);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Main";
             Text = "Main";
+            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -187,5 +201,6 @@
         private ComboBox group_ComboBox;
         private Label label1;
         private Label label2;
+        private ComboBox lang_comBom;
     }
 }
