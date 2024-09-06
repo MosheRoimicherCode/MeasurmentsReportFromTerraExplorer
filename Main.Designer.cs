@@ -79,7 +79,7 @@
             // 
             Measurment_tbox.Location = new Point(12, 27);
             Measurment_tbox.Name = "Measurment_tbox";
-            Measurment_tbox.Size = new Size(163, 23);
+            Measurment_tbox.Size = new Size(264, 23);
             Measurment_tbox.TabIndex = 4;
             // 
             // group_tbox
@@ -177,6 +177,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(288, 318);
             Controls.Add(refreshGroups);
             Controls.Add(lang_comBom);
@@ -193,9 +194,13 @@
             Controls.Add(Area_btn);
             Controls.Add(Line_btn);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new Size(304, 357);
+            MinimizeBox = false;
+            MinimumSize = new Size(304, 357);
             Name = "Main";
-            Text = "Main";
-            TopMost = true;
+            StartPosition = FormStartPosition.WindowsDefaultBounds;
+            Text = "Generate Report";
             ResumeLayout(false);
             PerformLayout();
         }

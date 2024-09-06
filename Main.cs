@@ -33,7 +33,6 @@ namespace MeasurmentsReportFromTerraExplorer
         {
             try
             {
-                resetMeasurmentName();
                 measurments.CreateLineMeasurment(Measurment_tbox.Text);
             }
             catch (Exception ex)
@@ -46,8 +45,8 @@ namespace MeasurmentsReportFromTerraExplorer
         {
             try
             {
-                resetMeasurmentName();
                 measurments.CreateAreaMeasurment(Measurment_tbox.Text);
+
             }
             catch (Exception ex)
             {
@@ -73,6 +72,7 @@ namespace MeasurmentsReportFromTerraExplorer
                     // Inform the user that the input is invalid
                     MessageBox.Show("Please enter a valid measurement.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+
             }
             catch (Exception ex)
             {
@@ -105,10 +105,13 @@ namespace MeasurmentsReportFromTerraExplorer
                 MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void report_btn_Click(object sender, EventArgs e)
+        private async void report_btn_Click(object sender, EventArgs e)
         {
+            var cursor = this.Cursor;
             try
             {
+                this.Cursor = Cursors.WaitCursor;
+
                 if (group_ComboBox.SelectedItem != null)
                 {
                     // Cast SelectedItem to KeyValuePair<string, string>
@@ -118,16 +121,28 @@ namespace MeasurmentsReportFromTerraExplorer
                     string selectedText = selectedItem.Value; // The visible text in the ComboBox
                     string selectedValue = selectedItem.Key;  // The hidden value (ID)
 
-                    reportByGroup.GetGroupChieldsAsync(selectedText);
+                    // Await async methods to get children and generate report
+                    await reportByGroup.GetGroupChieldsAsync(selectedText);
 
-                    reportByGroup.GenerateReportfUNC(selectedText, (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE");
+                    // Pass selected language or default to "HE"
+                    string selectedLanguage = (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE";
+                    await reportByGroup.GenerateReportfUNC(selectedText, selectedLanguage);
+                }
+                else
+                {
+                    MessageBox.Show("Please select a group from the dropdown.", "Selection Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                this.Cursor = cursor; // Reset cursor in finally block
+            }
         }
+
 
         private void populateListBox(System.Windows.Forms.ComboBox listBox)
         {
