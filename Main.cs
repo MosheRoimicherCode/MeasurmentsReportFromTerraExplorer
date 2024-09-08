@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using TeManagement;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace MeasurmentsReportFromTerraExplorer
 {
@@ -39,7 +40,7 @@ namespace MeasurmentsReportFromTerraExplorer
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
         private void Area_btn_Click(object sender, EventArgs e)
@@ -91,6 +92,7 @@ namespace MeasurmentsReportFromTerraExplorer
                 {
                     // Call the CreateGroup method with the user input
                     measurments.CreateGroup(groupName);
+                    group_tbox.Text = "";
                     populateListBox(group_ComboBox);
                 }
                 else
@@ -102,7 +104,7 @@ namespace MeasurmentsReportFromTerraExplorer
             catch (Exception ex)
             {
                 // Handle any potential errors that occur during the operation
-                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
         private async void report_btn_Click(object sender, EventArgs e)
@@ -156,11 +158,11 @@ namespace MeasurmentsReportFromTerraExplorer
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while reporting: \nDetails: {ex.Message} \nPlease ensure your group exist before generate the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while reporting: \nDetails: {ex.Message} \nPlease ensure your group exist before generate the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             finally
             {
-                
+
                 reportByGroup.WaitingPopUp(false);
                 this.Cursor = cursor; // Reset cursor in finally block
             }
@@ -214,7 +216,6 @@ namespace MeasurmentsReportFromTerraExplorer
         {
             populateListBox(group_ComboBox);
         }
-
         private static string SanitizeFileName(string input)
         {
             // Remove invalid characters for file names
@@ -228,6 +229,31 @@ namespace MeasurmentsReportFromTerraExplorer
 
             // Optionally, you can also add additional sanitization rules here
             return sanitizedInput;
+        }
+
+        private void Main_HelpButtonClicked(object sender, CancelEventArgs e)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "help.html");
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo()
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true  // This will use the default PDF viewer
+                    };
+                    Process.Start(processStartInfo);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error opening PDF: " + ex.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("File not found: " + filePath);
+            }
         }
     }
 }

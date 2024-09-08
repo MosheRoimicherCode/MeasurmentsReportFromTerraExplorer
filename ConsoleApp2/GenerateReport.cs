@@ -51,6 +51,8 @@ public class GenerateReport
         metaData.Producer = "Kav Medida - Israel";
         metaData.Title = projectName;
 
+        var totalElemnts = lines.Count + polys.Count + points.Count - 2;
+
         DefineCulture(language);
         QuestPDF.Settings.License = LicenseType.Community;
 
@@ -90,6 +92,7 @@ public class GenerateReport
                      .Column(col =>
                      {
                          var numberOfElements = 0;
+                         var totalElem = points.Count + lines.Count + polys.Count;
                          //Point
                          foreach (var list in points)
                          {
@@ -143,7 +146,7 @@ public class GenerateReport
                              });
 
                              numberOfElements++;
-                             if (numberOfElements != 0 && numberOfElements % 2 == 0)
+                             if (numberOfElements != 0 && numberOfElements % 2 == 0 && numberOfElements < totalElem)
                                  col.Item().PageBreak();
                          }
 
@@ -206,7 +209,7 @@ public class GenerateReport
                              });
 
                              numberOfElements++;
-                             if (numberOfElements != 0 && numberOfElements % 2 == 0)
+                             if (numberOfElements != 0 && numberOfElements % 2 == 0 && numberOfElements < totalElem)
                                  col.Item().PageBreak();
                          }
 
@@ -263,7 +266,7 @@ public class GenerateReport
                              });
 
                              numberOfElements++;
-                             if (numberOfElements != 0 && numberOfElements % 2 == 0)
+                             if (numberOfElements != 0 && numberOfElements % 2 == 0 && numberOfElements < totalElem)
                                  col.Item().PageBreak();
                          }
                      });

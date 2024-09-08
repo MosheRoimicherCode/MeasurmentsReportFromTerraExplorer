@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Line_btn = new Button();
             Area_btn = new Button();
@@ -43,6 +44,8 @@
             label2 = new Label();
             lang_comBom = new ComboBox();
             refreshGroups = new Button();
+            toolTip1 = new ToolTip(components);
+            helpProvider1 = new HelpProvider();
             SuspendLayout();
             // 
             // Line_btn
@@ -52,6 +55,7 @@
             Line_btn.Size = new Size(83, 35);
             Line_btn.TabIndex = 0;
             Line_btn.Text = "Line";
+            toolTip1.SetToolTip(Line_btn, "Create a Line");
             Line_btn.UseVisualStyleBackColor = true;
             Line_btn.Click += Line_btn_Click;
             // 
@@ -62,6 +66,7 @@
             Area_btn.Size = new Size(88, 35);
             Area_btn.TabIndex = 1;
             Area_btn.Text = "Area";
+            toolTip1.SetToolTip(Area_btn, "Create a Polygon");
             Area_btn.UseVisualStyleBackColor = true;
             Area_btn.Click += Area_btn_Click;
             // 
@@ -72,6 +77,7 @@
             report_btn.Size = new Size(264, 42);
             report_btn.TabIndex = 3;
             report_btn.Text = "Generate Report";
+            toolTip1.SetToolTip(report_btn, "Generate Report");
             report_btn.UseVisualStyleBackColor = true;
             report_btn.Click += report_btn_Click;
             // 
@@ -81,6 +87,7 @@
             Measurment_tbox.Name = "Measurment_tbox";
             Measurment_tbox.Size = new Size(264, 23);
             Measurment_tbox.TabIndex = 4;
+            toolTip1.SetToolTip(Measurment_tbox, "Enter a Measurment Name ");
             // 
             // group_tbox
             // 
@@ -88,6 +95,7 @@
             group_tbox.Name = "group_tbox";
             group_tbox.Size = new Size(100, 23);
             group_tbox.TabIndex = 5;
+            toolTip1.SetToolTip(group_tbox, "Enter a New Group Name");
             // 
             // measure_lbl
             // 
@@ -114,6 +122,7 @@
             createGroup_btn.Size = new Size(102, 34);
             createGroup_btn.TabIndex = 8;
             createGroup_btn.Text = "Create Group";
+            toolTip1.SetToolTip(createGroup_btn, "Create a new group on Terra Explorer");
             createGroup_btn.UseVisualStyleBackColor = true;
             createGroup_btn.Click += createGroup_btn_Click;
             // 
@@ -124,6 +133,7 @@
             point_btn.Size = new Size(82, 35);
             point_btn.TabIndex = 2;
             point_btn.Text = "Point";
+            toolTip1.SetToolTip(point_btn, "Create Points");
             point_btn.UseVisualStyleBackColor = true;
             point_btn.Click += point_btn_Click;
             // 
@@ -134,6 +144,7 @@
             group_ComboBox.Name = "group_ComboBox";
             group_ComboBox.Size = new Size(135, 23);
             group_ComboBox.TabIndex = 10;
+            toolTip1.SetToolTip(group_ComboBox, "Select a Group From Terra EXplorer to pdf Exporter");
             // 
             // label1
             // 
@@ -161,6 +172,7 @@
             lang_comBom.Name = "lang_comBom";
             lang_comBom.Size = new Size(56, 23);
             lang_comBom.TabIndex = 13;
+            toolTip1.SetToolTip(lang_comBom, "Select a Language to pdf Exporter");
             // 
             // refreshGroups
             // 
@@ -170,8 +182,13 @@
             refreshGroups.Name = "refreshGroups";
             refreshGroups.Size = new Size(36, 32);
             refreshGroups.TabIndex = 14;
+            toolTip1.SetToolTip(refreshGroups, "Refresh Group List");
             refreshGroups.UseVisualStyleBackColor = true;
             refreshGroups.Click += refreshGroups_Click;
+            // 
+            // helpProvider1
+            // 
+            helpProvider1.HelpNamespace = "C:\\Users\\User\\Downloads\\popUpPdfGif.html";
             // 
             // Main
             // 
@@ -193,14 +210,19 @@
             Controls.Add(point_btn);
             Controls.Add(Area_btn);
             Controls.Add(Line_btn);
+            HelpButton = true;
+            helpProvider1.SetHelpKeyword(this, "");
+            helpProvider1.SetHelpNavigator(this, HelpNavigator.Find);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(304, 357);
             MinimizeBox = false;
             MinimumSize = new Size(304, 357);
             Name = "Main";
+            helpProvider1.SetShowHelp(this, true);
             StartPosition = FormStartPosition.WindowsDefaultBounds;
             Text = "Generate Report";
+            HelpButtonClicked += Main_HelpButtonClicked;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -221,5 +243,7 @@
         private Label label2;
         private ComboBox lang_comBom;
         private Button refreshGroups;
+        private ToolTip toolTip1;
+        private HelpProvider helpProvider1;
     }
 }
