@@ -121,7 +121,7 @@ namespace MeasurmentsReportFromTerraExplorer
                 {
                     saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
                     saveFileDialog.Title = "Save PDF File";
-                    saveFileDialog.FileName = "Document"; // Default file name
+                    saveFileDialog.FileName = SanitizeFileName(Measurment_tbox.Text); // Default file name
 
                     this.Cursor = Cursors.WaitCursor;
 
@@ -139,7 +139,7 @@ namespace MeasurmentsReportFromTerraExplorer
                             string selectedValue = selectedItem.Key;  // The hidden value (ID)
 
                             // Await async methods to get children and generate report
-                            await reportByGroup.GetGroupChieldsAsync(selectedText);
+                            //await reportByGroup.GetGroupChieldsAsync(selectedText);
 
                             // Pass selected language or default to "HE"
                             string selectedLanguage = (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE";
@@ -213,6 +213,21 @@ namespace MeasurmentsReportFromTerraExplorer
         private void refreshGroups_Click(object sender, EventArgs e)
         {
             populateListBox(group_ComboBox);
+        }
+
+        private static string SanitizeFileName(string input)
+        {
+            // Remove invalid characters for file names
+            string invalidChars = new string(Path.GetInvalidFileNameChars());
+            string sanitizedInput = input;
+
+            foreach (char c in invalidChars)
+            {
+                sanitizedInput = sanitizedInput.Replace(c.ToString(), string.Empty);
+            }
+
+            // Optionally, you can also add additional sanitization rules here
+            return sanitizedInput;
         }
     }
 }

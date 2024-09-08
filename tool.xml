@@ -1,0 +1,9 @@
+<Tool caption="Report_Beta" id="Report_Beta" 
+		Path="Report_Beta\MeasurmentsReportFromTerraExplorer.exe" NeedProject="1">
+		<Ribbon Show="1" Toggle="1">
+			<Category id="Kav" caption="Kav MaEdida" />
+				<Icon path="sustainable-energy.ico"/>
+				<Panel id="Report_Beta" caption="Report_Beta" />
+				<ToolTip title="Closest Point Between 2 Tiles" description=""/>
+			</Ribbon>
+</Tool>

@@ -164,11 +164,11 @@ public class GenerateReport
                                  });
 
                                  table.Cell().Element(TableHeader).Text(_rm.GetString("Name")).FontFamily(Fonts.Trebuchet);
-                                 table.Cell().Element(TableHeader).Text(_rm.GetString("AerialDistance")).FontFamily(Fonts.Trebuchet);
+                                 table.Cell().Element(TableHeader).Text(_rm.GetString("ElevationDifference")).FontFamily(Fonts.Trebuchet);
                                  table.Cell().Element(TableHeader).Text(_rm.GetString("HorizontalDistance")).FontFamily(Fonts.Trebuchet);
+                                 table.Cell().Element(TableHeader).Text(_rm.GetString("AerialDistance")).FontFamily(Fonts.Trebuchet);
                                  table.Cell().Element(TableHeader).Text(_rm.GetString("SlopeDegrees")).FontFamily(Fonts.Trebuchet);
                                  table.Cell().Element(TableHeader).Text(_rm.GetString("SlopePercentage")).FontFamily(Fonts.Trebuchet);
-                                 table.Cell().Element(TableHeader).Text(_rm.GetString("ElevationDifference")).FontFamily(Fonts.Trebuchet);
 
 
                                  foreach (var item in list)
