@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace MeasurmentsReportFromTerraExplorer
         public Main()
         {
             InitializeComponent();
+            measurments.CreateGroup();
             resetMeasurmentName();
             //measurments.atachStartEvents();
             populateListBox(group_ComboBox);
@@ -40,7 +42,6 @@ namespace MeasurmentsReportFromTerraExplorer
                 MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void Area_btn_Click(object sender, EventArgs e)
         {
             try
@@ -53,7 +54,6 @@ namespace MeasurmentsReportFromTerraExplorer
                 MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void point_btn_Click(object sender, EventArgs e)
         {
             try
@@ -107,43 +107,87 @@ namespace MeasurmentsReportFromTerraExplorer
         }
         private async void report_btn_Click(object sender, EventArgs e)
         {
+            string filePath = string.Empty;
             var cursor = this.Cursor;
+            reportByGroup.WaitingPopUp(true);
             try
             {
-                this.Cursor = Cursors.WaitCursor;
-
-                if (group_ComboBox.SelectedItem != null)
+                if (group_ComboBox.SelectedItem == null)
                 {
-                    // Cast SelectedItem to KeyValuePair<string, string>
-                    var selectedItem = (KeyValuePair<string, string>)group_ComboBox.SelectedItem;
-
-                    // Get the selected text and value
-                    string selectedText = selectedItem.Value; // The visible text in the ComboBox
-                    string selectedValue = selectedItem.Key;  // The hidden value (ID)
-
-                    // Await async methods to get children and generate report
-                    await reportByGroup.GetGroupChieldsAsync(selectedText);
-
-                    // Pass selected language or default to "HE"
-                    string selectedLanguage = (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE";
-                    await reportByGroup.GenerateReportfUNC(selectedText, selectedLanguage);
+                    throw new Exception("Please select before a group");
                 }
-                else
+                reportByGroup.checkIfGroupExist(((KeyValuePair<string, string>)group_ComboBox.SelectedItem).Value);
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                 {
-                    MessageBox.Show("Please select a group from the dropdown.", "Selection Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                    saveFileDialog.Title = "Save PDF File";
+                    saveFileDialog.FileName = "Document"; // Default file name
+
+                    this.Cursor = Cursors.WaitCursor;
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        filePath = saveFileDialog.FileName;
+
+                        if (group_ComboBox.SelectedItem != null)
+                        {
+                            // Cast SelectedItem to KeyValuePair<string, string>
+                            var selectedItem = (KeyValuePair<string, string>)group_ComboBox.SelectedItem;
+
+                            // Get the selected text and value
+                            string selectedText = selectedItem.Value; // The visible text in the ComboBox
+                            string selectedValue = selectedItem.Key;  // The hidden value (ID)
+
+                            // Await async methods to get children and generate report
+                            await reportByGroup.GetGroupChieldsAsync(selectedText);
+
+                            // Pass selected language or default to "HE"
+                            string selectedLanguage = (lang_comBom.SelectedIndex > -1) ? lang_comBom.SelectedItem.ToString() : "HE";
+                            await reportByGroup.GenerateReportfUNC(selectedText, selectedLanguage, filePath);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please select a group from the dropdown.", "Selection Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+
+                        OpenPdf(filePath);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred while reporting: \nDetails: {ex.Message} \nPlease ensure your group exist before generate the report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
+                
+                reportByGroup.WaitingPopUp(false);
                 this.Cursor = cursor; // Reset cursor in finally block
             }
         }
-
-
+        private void OpenPdf(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo()
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true  // This will use the default PDF viewer
+                    };
+                    Process.Start(processStartInfo);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error opening PDF: " + ex.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("File not found: " + filePath);
+            }
+        }
         private void populateListBox(System.Windows.Forms.ComboBox listBox)
         {
             try
@@ -166,7 +210,6 @@ namespace MeasurmentsReportFromTerraExplorer
                 MessageBox.Show($"An error occurred while creating the group: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void refreshGroups_Click(object sender, EventArgs e)
         {
             populateListBox(group_ComboBox);

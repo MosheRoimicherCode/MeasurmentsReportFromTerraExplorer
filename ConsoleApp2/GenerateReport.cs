@@ -13,8 +13,11 @@ public class GenerateReport
 {
     ResourceManager _rm = new ResourceManager("GeneratePdf.Languages.Resources", typeof(Program).Assembly);
     private float spacing = 18;
+    DocumentMetadata metaData = new();
     public void GenerateFakeDataReport()
     {
+
+
         // Create lists to simulate your data categories
         List<List<string>> points = new();
         List<List<string>> lines = new();
@@ -38,13 +41,21 @@ public class GenerateReport
 
 
         // Generate the report PDF
-        ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "he", "projectName");
+        //ReportToPdf(points, lines, polys, "דומגמה של שם אתר", "he", "projectName");
     }
 
-    public void ReportToPdf(List<List<string>> points, List<List<string>> lines, List<List<string>> polys, string siteName, string language, string projectName)
+    public void ReportToPdf(List<List<string>> points, List<List<string>> lines, List<List<string>> polys, string siteName, string language, string projectName, string pdfPath)
     {
+        metaData.CreationDate = DateTimeOffset.Now.Date;
+        metaData.Creator = "Automatic Report From Terra Explorer";
+        metaData.Producer = "Kav Medida - Israel";
+        metaData.Title = projectName;
+
         DefineCulture(language);
         QuestPDF.Settings.License = LicenseType.Community;
+
+        // Get the base directory of the project
+        string logoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logoKav.png");
 
         Document.Create(container =>
         {
@@ -58,7 +69,6 @@ public class GenerateReport
                 page.Header()
                     .Column(column =>
                     {
-                        string logoPath = Path.Combine("C:\\Users\\User\\source\\repos\\MeasurmentsReportFromTerraExplorer\\ConsoleApp2\\NewFolder", "logoKav.png");
                         if (File.Exists(logoPath))
                         {
                             column.Item().Height(5).Background("4083c4");
@@ -267,7 +277,7 @@ public class GenerateReport
                     });
             });
         })
-        .GeneratePdfAndShow();
+        .WithMetadata(metaData).GeneratePdf(pdfPath);
     }
 
 
